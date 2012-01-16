@@ -2,84 +2,154 @@
 <html>
 <head>
   <meta charset='utf-8'>
-
-  <title>stefanbirkner/locurlizer @ GitHub</title>
-
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #b99e24;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #4661db; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #4661db; }
-    h3 { text-align: center; color: #4661db; }
-    a { color: #4661db; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
+	<title>Locurlizer</title>
+  <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" />
+  <link rel="stylesheet" href="locurlizer.css" />
 </head>
 
 <body>
-  <a href="https://github.com/stefanbirkner/locurlizer"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-
-    <div class="download">
-      <a href="https://github.com/stefanbirkner/locurlizer/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/stefanbirkner/locurlizer/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
+	<header>
+		<div class="navbar" data-scrollspy="scrollspy">
+		  <div class="navbar-inner">
+		    <div class="container">
+		      <a class="brand" href="#">Locurlizer</a>
+		      <ul class="nav">
+		        <li class="active"><a href="#overview">Overview</a></li>
+		        <li><a href="#example">Example</a></li>
+		      </ul>
+		    </div>
+		  </div>
+		</div>
+    <div class="container locurlizer-hero">
+			<div class="row">
+				<div class="span6 offset1">
+					<h1>Locurlizer</h1>
+					<p>A servlet filter for multilingual URLs. You create your application with human readable URLs and provide a translation file of these URLs. Locurlizer translates the URLs on the fly without changing your application.</p>
+				</div>
+				<div class="span3">
+					<img src="postit.png" height="200" width="201" />
+				</div>
+			</div>
     </div>
+	</header>
 
-    <h1><a href="https://github.com/stefanbirkner/locurlizer">locurlizer</a>
-      <span class="small">by <a href="https://github.com/stefanbirkner">stefanbirkner</a></span></h1>
+  <div class="container">
+		<section id="overview">
+			<div class="page-header">
+				<h1>Overview <small>from 10.000 ft</small></h1>
+			</div>
+			<div style="text-align:center">
+				<img src="response.png" alt="response schema" height="131" width="808" /><br />
+				<img src="request.png" alt="request schema" height="109" width="808" />
+			</div>
+		</section>
 
-    <div class="description">
-      A servlet filter for multilingual urls.
-    </div>
+		<section id="example">
+			<div class="page-header">
+				<h1>Example <small>How it works</small></h1>
+			</div>
+			<h2>You have this</h2>
+			<div class="row">
+				<div class="span6">
+					<h3>http://yourdomain.com/help.jsp</h3>
+					<pre>…
+&lt;filter&gt;
+   &lt;filter-name&gt;Locurlizer&lt;/filter-name&gt;
+   &lt;filter-class&gt;Locurlizer&lt;/filter-class&gt;
+   &lt;init-param&gt;
+      &lt;param-name&gt;configuration&lt;/param-name&gt;
+      &lt;param-value&gt;locurlizer.json&lt;/param-value&gt;
+   &lt;/init-param&gt;
+&lt;/filter&gt;
+…</pre>
+				</div>
+				<div class="span6">
+					<h3>locurlizer.json</h3>
+					<pre>{
+  "default-language":"en",
+  "language-resolver":"com.github.stefanbirkner.locurlizer.TopLevelDomainLanguageResolver",
+  pathes:[
+    {
+      en:"/help.jsp",
+      de:"/hilfe.jsp"
+    },
+    {
+      en:"/contact.jsp",
+      de:"/kontakt.jsp"
+    }
+  ]
+}</pre>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span6">
+					<h3>help.jsp</h3>
+					<pre>…
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;&lt;fmt:message key="title"/&gt;&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;
+      &lt;fmt:message key="text"/&gt;
+      &lt;a href="&lt;c:url value="/contact.jsp"/&gt;"&gt;&lt;/a&gt;
+    &lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span12">
+					<h2>You get this</h2>
+					<div class="row">
+						<div class="span6">
+							<h3>http://yourdomain.com/help.jsp</h3>
+							<pre>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;English Title&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;
+      English text
+      &lt;a href="/contact.jsp"&gt;&lt;/a&gt;
+    &lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+						</div>
+						<div class="span6">
+							<h3>http://yourdomain.de/hilfe.jsp</h3>
+							<pre>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Deutscher Titel&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;
+      Deutscher Text
+      &lt;a href="/kontakt.jsp"&gt;&lt;/a&gt;
+    &lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+						</div>
+					</div>
+				</div>
+		  </div>
+		</section>
 
-    
+      <h2>License</h2>
+      <p>Apache License, Version 2.0</p>
 
-    
-
-    
-
-    
-
-    
-
-    
-      <h2>Contact</h2>
-      <p>Stefan Birkner (github@stefan-birkner.de)<br/>      </p>
-    
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/stefanbirkner/locurlizer/zipball/master">zip</a> or
-      <a href="https://github.com/stefanbirkner/locurlizer/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/stefanbirkner/locurlizer</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/stefanbirkner/locurlizer">stefanbirkner/locurlizer</a>
-    </div>
-
+      <h2>Author</h2>
+      <p>Stefan Birkner (mail@stefan-birkner.de)</p>
   </div>
 
+<script type=\"text/javascript\">
+var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
+document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));
+</script>
+<script type=\"text/javascript\">
+try {
+var pageTracker = _gat._getTracker("UA-24640829-4");
+pageTracker._trackPageview();
+} catch(err) {}</script>
 </body>
 </html>

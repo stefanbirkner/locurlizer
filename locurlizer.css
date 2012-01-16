@@ -1,0 +1,27 @@
+header {
+	background-image: linear-gradient(left top, rgb(212,161,32) 23%, rgb(245,219,152) 69%, rgb(255,244,186) 88%);
+	background-image: -o-linear-gradient(left top, rgb(212,161,32) 23%, rgb(245,219,152) 69%, rgb(255,244,186) 88%);
+	background-image: -moz-linear-gradient(left top, rgb(212,161,32) 23%, rgb(245,219,152) 69%, rgb(255,244,186) 88%);
+	background-image: -webkit-linear-gradient(left top, rgb(212,161,32) 23%, rgb(245,219,152) 69%, rgb(255,244,186) 88%);
+	background-image: -ms-linear-gradient(left top, rgb(212,161,32) 23%, rgb(245,219,152) 69%, rgb(255,244,186) 88%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		right bottom,
+		color-stop(0.23, rgb(212,161,32)),
+		color-stop(0.69, rgb(245,219,152)),
+		color-stop(0.88, rgb(255,244,186))
+	);
+  margin-bottom:20px;
+}
+
+header .locurlizer-hero {
+  padding-top:2em;
+  padding-bottom:2em;
+}
+
+header p {
+	font-size:12pt;
+	line-height:175%;
+}
